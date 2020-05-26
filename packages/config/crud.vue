@@ -60,66 +60,6 @@
       </el-select>
     </el-form-item> -->
 
-    <el-form-item label="弹框宽度">
-      <el-input-number
-        v-model="data.options.dialogWidth"
-        placeholder="弹出表单的弹窗宽度"
-      ></el-input-number>
-    </el-form-item>
-    <el-form-item label="弹框高度">
-      <el-input-number
-        v-model="data.options.dialogHeight"
-        placeholder="弹出表单的弹窗高度"
-      ></el-input-number>
-    </el-form-item>
-    <!-- <el-form-item label="弹框类型">
-      <el-select v-model="data.options.align" placeholder="请选择窗口弹出类型">
-        <el-option label="弹窗" value="modal"></el-option>
-        <el-option label="抽屉" value="drawer"></el-option>
-      </el-select>
-    </el-form-item> -->
-    <el-form-item label="弹框全屏">
-      <el-switch v-model="data.options.dialogFullscreen"></el-switch>
-    </el-form-item>
-
-    <el-form-item label="按ESC关闭">
-      <el-switch v-model="data.options.dialogEscape"></el-switch>
-    </el-form-item>
-    <el-form-item label="显示遮罩">
-      <el-switch v-model="data.options.dialogModal"></el-switch>
-    </el-form-item>
-
-    <el-form-item label="点击框外关闭">
-      <el-switch v-model="data.options.dialogClickModal"></el-switch>
-    </el-form-item>
-
-    <el-form-item label="弹窗显示关闭按钮">
-      <el-switch v-model="data.options.dialogCloseBtn"></el-switch>
-    </el-form-item>
-
-    <el-form-item label="显示新增按钮">
-      <el-switch v-model="data.options.addBtn"></el-switch>
-    </el-form-item>
-    <el-form-item label="行内菜单类型">
-      <el-select
-        v-model="data.options.menuType"
-        placeholder="请选择行内菜单类型"
-      >
-        <el-option label="按钮" value="button"></el-option>
-        <el-option label="图标" value="icon"></el-option>
-        <el-option label="文字" value="text"></el-option>
-        <el-option label="菜单" value="menu"></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="行内编辑按钮">
-      <el-switch v-model="data.options.editBtn"></el-switch>
-    </el-form-item>
-    <el-form-item label="行内查看按钮">
-      <el-switch v-model="data.options.viewBtn"></el-switch>
-    </el-form-item>
-    <el-form-item label="行内删除按钮">
-      <el-switch v-model="data.options.delBtn"></el-switch>
-    </el-form-item>
     <!-- <el-form-item label="显示保存按钮">
       <el-switch v-model="data.options.addBtn"></el-switch>
     </el-form-item> -->
@@ -148,24 +88,10 @@
       ></el-input>
     </el-form-item> -->
 
-    <el-form-item label="显示搜索按钮">
-      <el-switch v-model="data.options.searchBtn"></el-switch>
-    </el-form-item>
-    <!-- <el-form-item label="显示刷新按钮">
-      <el-switch v-model="data.options.refreshBtn"></el-switch>
-    </el-form-item> -->
-    <el-form-item label="显示过滤按钮">
-      <el-switch v-model="data.options.filterBtn"></el-switch>
-    </el-form-item>
-    <el-form-item label="显示打印按钮">
-      <el-switch v-model="data.options.printBtn"></el-switch>
-    </el-form-item>
     <!-- <el-form-item label="显示导出按钮">
       <el-switch v-model="data.options.addBtn"></el-switch>
     </el-form-item> -->
-    <el-form-item label="显示列显隐按钮">
-      <el-switch v-model="data.options.columnBtn"></el-switch>
-    </el-form-item>
+
     <el-form-item label="显示日期组件">
       <el-switch v-model="data.options.dateBtn"></el-switch>
     </el-form-item>
@@ -187,58 +113,169 @@
     </el-form-item> -->
     <el-row>表格字段控制</el-row>
 
-    <draggable
-      class="syllable_ul"
-      element="ul"
-      :list="column"
-      :options="{ group: 'title', animation: 150 }"
-      :no-transition-on-drag="true"
-      @change="change"
-      @start="start"
-      @end="end"
-      :move="move"
-    >
-      <transition-group
-        type="transition"
-        :name="!drag ? 'syll_li' : null"
-        :css="true"
-      >
-        <li v-for="item in column" :key="item.prop">
+    <el-row>表头左侧自定义功能按钮</el-row>
+
+    <el-row>表头右侧自定义图标按钮</el-row>
+    <el-collapse v-model="activePanel" accordion>
+      <el-collapse-item title="表格字段" name="1">
+        <draggable
+          class="syllable_ul"
+          element="ul"
+          :list="column"
+          :options="{ group: 'title', animation: 150 }"
+          :no-transition-on-drag="true"
+          @change="change"
+          @start="start"
+          @end="end"
+          :move="move"
+        >
+          <transition-group
+            type="transition"
+            :name="!drag ? 'syll_li' : null"
+            :css="true"
+          >
+            <li v-for="item in column" :key="item.prop">
+              <el-col :span="10" class="fieldSection"
+                ><el-input v-model="item.label" disabled></el-input
+              ></el-col>
+              <el-col :span="10" class="fieldSection"
+                ><el-input v-model="item.prop" disabled></el-input
+              ></el-col>
+              <el-col :span="4" class="fieldSection">
+                <el-button
+                  type="danger"
+                  size="mini"
+                  @click="handleDelete(index)"
+                  circle
+                  icon="el-icon-minus"
+                ></el-button
+              ></el-col>
+            </li>
+          </transition-group>
+        </draggable>
+        <el-row>
           <el-col :span="10" class="fieldSection"
-            ><el-input v-model="item.label" disabled></el-input
+            ><el-input
+              v-model="newItem.label"
+              placeholder="请输入列名"
+            ></el-input
           ></el-col>
           <el-col :span="10" class="fieldSection"
-            ><el-input v-model="item.prop" disabled></el-input
+            ><el-input
+              v-model="newItem.prop"
+              placeholder="请输入字段名"
+            ></el-input
           ></el-col>
           <el-col :span="4" class="fieldSection">
             <el-button
-              type="danger"
+              type="success"
               size="mini"
-              @click="handleDelete(index)"
+              @click="handleAdd(newItem)"
               circle
-              icon="el-icon-minus"
+              icon="el-icon-plus"
             ></el-button
           ></el-col>
-        </li>
-      </transition-group>
-    </draggable>
-    <el-row>
-      <el-col :span="10" class="fieldSection"
-        ><el-input v-model="newItem.label" placeholder="请输入列名"></el-input
-      ></el-col>
-      <el-col :span="10" class="fieldSection"
-        ><el-input v-model="newItem.prop" placeholder="请输入字段名"></el-input
-      ></el-col>
-      <el-col :span="4" class="fieldSection">
-        <el-button
-          type="success"
-          size="mini"
-          @click="handleAdd(newItem)"
-          circle
-          icon="el-icon-plus"
-        ></el-button
-      ></el-col>
-    </el-row>
+        </el-row>
+      </el-collapse-item>
+      <el-collapse-item title="表头功能按钮(左侧)" name="2">
+        <el-form-item label="显示新增按钮">
+          <el-switch v-model="data.options.addBtn"></el-switch>
+        </el-form-item>
+        <el-form-item label="显示打印按钮">
+          <el-switch v-model="data.options.printBtn"></el-switch>
+        </el-form-item>
+      </el-collapse-item>
+      <el-collapse-item title="表头功能按钮(右侧)" name="3">
+        <el-form-item label="显示列显隐按钮">
+          <el-switch v-model="data.options.columnBtn"></el-switch>
+        </el-form-item>
+        <el-form-item label="显示搜索按钮">
+          <el-switch v-model="data.options.searchBtn"></el-switch>
+        </el-form-item>
+        <!-- <el-form-item label="显示刷新按钮">
+      <el-switch v-model="data.options.refreshBtn"></el-switch>
+    </el-form-item> -->
+        <el-form-item label="显示过滤按钮">
+          <el-switch v-model="data.options.filterBtn"></el-switch>
+        </el-form-item>
+      </el-collapse-item>
+      <el-collapse-item title="数据行控制" name="4">
+        <el-form-item label="行内菜单类型">
+          <el-select
+            v-model="data.options.menuType"
+            placeholder="请选择行内菜单类型"
+          >
+            <el-option label="按钮" value="button"></el-option>
+            <el-option label="图标" value="icon"></el-option>
+            <el-option label="文字" value="text"></el-option>
+            <el-option label="菜单" value="menu"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="行内编辑按钮">
+          <el-switch v-model="data.options.editBtn"></el-switch>
+        </el-form-item>
+        <el-form-item label="行内查看按钮">
+          <el-switch v-model="data.options.viewBtn"></el-switch>
+        </el-form-item>
+        <el-form-item label="行内删除按钮">
+          <el-switch v-model="data.options.delBtn"></el-switch>
+        </el-form-item>
+      </el-collapse-item>
+      <el-collapse-item title="自带弹窗控制" name="5">
+        <el-form-item label="弹框宽度">
+          <el-input-number
+            v-model="data.options.dialogWidth"
+            placeholder="弹出表单的弹窗宽度"
+          ></el-input-number>
+        </el-form-item>
+        <el-form-item label="弹框高度">
+          <el-input-number
+            v-model="data.options.dialogHeight"
+            placeholder="弹出表单的弹窗高度"
+          ></el-input-number>
+        </el-form-item>
+        <!-- <el-form-item label="弹框类型">
+      <el-select v-model="data.options.align" placeholder="请选择窗口弹出类型">
+        <el-option label="弹窗" value="modal"></el-option>
+        <el-option label="抽屉" value="drawer"></el-option>
+      </el-select>
+    </el-form-item> -->
+        <el-form-item label="弹框全屏">
+          <el-switch v-model="data.options.dialogFullscreen"></el-switch>
+        </el-form-item>
+
+        <el-form-item label="按ESC关闭">
+          <el-switch v-model="data.options.dialogEscape"></el-switch>
+        </el-form-item>
+        <el-form-item label="显示遮罩">
+          <el-switch v-model="data.options.dialogModal"></el-switch>
+        </el-form-item>
+
+        <el-form-item label="点击框外关闭">
+          <el-switch v-model="data.options.dialogClickModal"></el-switch>
+        </el-form-item>
+
+        <el-form-item label="弹窗显示关闭按钮">
+          <el-switch v-model="data.options.dialogCloseBtn"></el-switch>
+        </el-form-item>
+      </el-collapse-item>
+      <el-collapse-item title="自带弹窗控制" name="6">
+        <div>
+          用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；
+        </div>
+        <div>
+          结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。
+        </div>
+      </el-collapse-item>
+      <el-collapse-item title="自带弹窗控制" name="7">
+        <div>
+          用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；
+        </div>
+        <div>
+          结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。
+        </div>
+      </el-collapse-item>
+    </el-collapse>
   </div>
 </template>
 
@@ -249,6 +286,7 @@ export default {
   props: ["data"],
   data: () => ({
     newItem: {},
+    activePanel: 1,
   }),
   methods: {
     handleAdd(newItem) {
