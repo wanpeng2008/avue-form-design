@@ -17,6 +17,7 @@ import UEditor from './ueditor.vue'
 import Map from './map.vue'
 import Group from './group.vue'
 import Array from './array.vue'
+import Crud from './crud.vue'
 
 const components = [
   Input,
@@ -37,11 +38,12 @@ const components = [
   Upload,
   Map,
   Group,
-  Array
+  Array,
+  Crud
 ]
 
 const Config = {
-  install (Vue) {
+  install(Vue) {
     if (this.installed) return
     this.installed = true
 

@@ -1,5 +1,90 @@
-export default [
-  {
+const crudFetchData = function (page) {
+  console.log('page', page)
+  return [{
+      name: "张三",
+      sex: "男",
+      date: "1994-02-23 00:00:00",
+    },
+    {
+      name: "李四",
+      sex: "女",
+      date: "1994-02-23 00:00:00",
+    },
+    {
+      name: "王五",
+      sex: "女",
+      date: "1994-02-23 00:00:00",
+    },
+    {
+      name: "赵六",
+      sex: "男",
+      date: "1994-02-23 00:00:00",
+    },
+  ]
+};
+export default [{
+    title: 'AVIC字段',
+    list: [{
+      type: 'crud',
+      label: 'crud表格',
+      icon: 'icon-group',
+      display: true,
+      typeslot: true,
+      slot: true,
+      formslot: true,
+      funcs: {
+        fetchData: crudFetchData
+      },
+      options: {
+        title: "表格的标题",
+        page: true,
+        selection: true,
+        align: "center",
+        menuAlign: "center",
+        column: [{
+            label: "姓名",
+            prop: "name",
+          },
+          {
+            label: "性别",
+            prop: "sex",
+          },
+          {
+            label: "日期",
+            prop: "date",
+            type: "date",
+            format: "yyyy-MM-dd hh:mm:ss",
+            valueFormat: "yyyy-MM-dd hh:mm:ss",
+          },
+        ],
+      },
+      children: {
+        column: []
+      }
+    }, {
+      type: 'modal',
+      label: '弹窗',
+      icon: 'icon-table',
+      span: 24,
+      display: true,
+      children: {
+        align: 'center',
+        headerAlign: 'center',
+        addBtn: true,
+        delBtn: true,
+        column: []
+      }
+    }, {
+      type: 'button',
+      component: 'el-button',
+      label: '按钮',
+      icon: 'el-icon-box',
+      display: true,
+      children: {
+        column: []
+      }
+    }]
+  }, {
     title: '布局字段',
     list: [{
       type: 'group',
@@ -76,10 +161,18 @@ export default [
       type: 'radio',
       label: '单选框组',
       icon: 'icon-radio',
-      dicData: [
-        { label: '选项一', value: '0' },
-        { label: '选项二', value: '1' },
-        { label: '选项三', value: '2' },
+      dicData: [{
+          label: '选项一',
+          value: '0'
+        },
+        {
+          label: '选项二',
+          value: '1'
+        },
+        {
+          label: '选项三',
+          value: '2'
+        },
       ],
       span: 24,
       display: true,
@@ -88,10 +181,18 @@ export default [
       type: 'checkbox',
       label: '多选框组',
       icon: 'icon-checkbox',
-      dicData: [
-        { label: '选项一', value: '0' },
-        { label: '选项二', value: '1' },
-        { label: '选项三', value: '2' },
+      dicData: [{
+          label: '选项一',
+          value: '0'
+        },
+        {
+          label: '选项二',
+          value: '1'
+        },
+        {
+          label: '选项三',
+          value: '2'
+        },
       ],
       span: 24,
       display: true,
@@ -100,10 +201,18 @@ export default [
       type: 'select',
       label: '下拉选择器',
       icon: 'icon-select',
-      dicData: [
-        { label: '选项一', value: 0 },
-        { label: '选项二', value: 1 },
-        { label: '选项三', value: 2 },
+      dicData: [{
+          label: '选项一',
+          value: 0
+        },
+        {
+          label: '选项二',
+          value: 1
+        },
+        {
+          label: '选项三',
+          value: 2
+        },
       ],
       span: 24,
       display: true,
@@ -114,8 +223,7 @@ export default [
       icon: 'icon-link',
       span: 24,
       display: true,
-      dicData: [
-        {
+      dicData: [{
           label: '选项一',
           value: 0,
           children: [{
@@ -126,8 +234,14 @@ export default [
             value: 12,
           }]
         },
-        { label: '选项二', value: 1 },
-        { label: '选项三', value: 2 },
+        {
+          label: '选项二',
+          value: 1
+        },
+        {
+          label: '选项三',
+          value: 2
+        },
       ],
       showAllLevels: true,
       dicOption: 'static',
@@ -139,8 +253,7 @@ export default [
       span: 24,
       display: true,
       dicOption: 'static',
-      dicData: [
-        {
+      dicData: [{
           label: '选项一',
           value: 0,
           children: [{
@@ -151,8 +264,14 @@ export default [
             value: 12,
           }]
         },
-        { label: '选项二', value: 1 },
-        { label: '选项三', value: 2 },
+        {
+          label: '选项二',
+          value: 1
+        },
+        {
+          label: '选项三',
+          value: 2
+        },
       ],
       parent: true
     }]
@@ -256,7 +375,7 @@ export default [
       title: '分割线',
       labelWidth: 40,
       prop: 'divider',
-      component: 'elDivider',//ele分割线
+      component: 'elDivider', //ele分割线
       span: 24,
       icon: 'icon-map',
       params: {
@@ -268,7 +387,7 @@ export default [
       labelWidth: 40,
       prop: 'calendar',
       icon: 'icon-map',
-      component: 'elCalendar',//ele日期
+      component: 'elCalendar', //ele日期
       span: 24,
       params: {
 
@@ -305,7 +424,13 @@ export default [
       span: 24,
       display: true,
       value: 0,
-      dicData: [{ label: '', value: '0' }, { label: '', value: '1' }]
+      dicData: [{
+        label: '',
+        value: '0'
+      }, {
+        label: '',
+        value: '1'
+      }]
     }, {
       type: 'rate',
       label: '评价',
