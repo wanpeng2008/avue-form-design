@@ -18,6 +18,7 @@ import Map from './map.vue'
 import Group from './group.vue'
 import Array from './array.vue'
 import Crud from './crud.vue'
+import Modal from './modal.vue'
 
 const components = [
   Input,
@@ -39,7 +40,7 @@ const components = [
   Map,
   Group,
   Array,
-  Crud
+  Crud, Modal
 ]
 
 const Config = {

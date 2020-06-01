@@ -8,9 +8,11 @@
       class="preview-form"
       :option="widgetFormPreview"
       v-model="widgetModels"
+      @submit="handleSubmit"
+      @reset-change="handleCancel"
     >
       <!-- <template v-for="(item, index) in widgetFormPreview.column"> -->
-      <template slot="1590434760660_82767Type" slot-scope="{ item }">
+      <!-- <template slot="1590434760660_82767Type" slot-scope="{ item }">
         <p>adsfsdf</p>
         <avue-crud
           :data="crudData"
@@ -18,7 +20,7 @@
           v-model="crudObj"
         ></avue-crud>
         <span>{{ item }}</span>
-      </template>
+      </template> -->
       <!-- </template> -->
     </avue-form>
   </div>
@@ -79,8 +81,17 @@ export default {
     };
   },
   methods: {
+    validate(_) {
+      return this.$refs.form.validate(_);
+    },
     resetForm() {
       this.$refs.form.resetForm();
+    },
+    handleSubmit(form) {
+      this.$emit("submit", form);
+    },
+    handleCancel() {
+      this.$emit("cancel");
     },
     handleSelectWidget(index) {
       this.selectWidget = this.data.column[index];

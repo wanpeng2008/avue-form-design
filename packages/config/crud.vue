@@ -1,55 +1,57 @@
 <template>
   <div>
-    <el-form-item label="行数据主键字段">
-      <el-input
-        v-model="data.options.rowkey"
-        placeholder="请输入主键"
-      ></el-input>
-    </el-form-item>
-    <!-- <el-form-item label="是否提示">
+    <el-collapse v-model="activePanel" accordion>
+      <el-collapse-item title="通用设置" name="0">
+        <el-form-item label="行数据主键字段">
+          <el-input
+            v-model="data.options.rowkey"
+            placeholder="请输入主键"
+          ></el-input>
+        </el-form-item>
+        <!-- <el-form-item label="是否提示">
       <el-switch v-model="data.options.addBtn"></el-switch>
     </el-form-item> -->
-    <el-form-item label="显示边框">
-      <el-switch v-model="data.options.border"></el-switch>
-    </el-form-item>
+        <el-form-item label="显示边框">
+          <el-switch v-model="data.options.border"></el-switch>
+        </el-form-item>
 
-    <el-form-item label="是否显示序号">
-      <el-switch v-model="data.options.index"></el-switch>
-    </el-form-item>
-    <el-form-item label="支持可选">
-      <el-switch v-model="data.options.selection"></el-switch>
-    </el-form-item>
-    <!-- <el-form-item label="支持多选">
+        <el-form-item label="是否显示序号">
+          <el-switch v-model="data.options.index"></el-switch>
+        </el-form-item>
+        <el-form-item label="支持可选">
+          <el-switch v-model="data.options.selection"></el-switch>
+        </el-form-item>
+        <!-- <el-form-item label="支持多选">
       <el-switch v-model="data.options.multiple"></el-switch>
     </el-form-item> -->
-    <el-form-item label="展开折叠行">
-      <el-switch v-model="data.options.expand"></el-switch>
-    </el-form-item>
+        <el-form-item label="展开折叠行">
+          <el-switch v-model="data.options.expand"></el-switch>
+        </el-form-item>
 
-    <el-form-item label="单元格对齐">
-      <el-select v-model="data.options.align" placeholder="请选择">
-        <el-option label="居左" value="left"></el-option>
-        <el-option label="居中" value="center"></el-option>
-        <el-option label="居右" value="right"></el-option>
-      </el-select>
-    </el-form-item>
-    <!-- <el-form-item label="表头对齐">
+        <el-form-item label="单元格对齐">
+          <el-select v-model="data.options.align" placeholder="请选择">
+            <el-option label="居左" value="left"></el-option>
+            <el-option label="居中" value="center"></el-option>
+            <el-option label="居右" value="right"></el-option>
+          </el-select>
+        </el-form-item>
+        <!-- <el-form-item label="表头对齐">
       <el-select v-model="data.options.headerAlign" placeholder="请选择">
         <el-option label="居左" value="left"></el-option>
         <el-option label="居中" value="center"></el-option>
         <el-option label="居右" value="right"></el-option>
       </el-select>
     </el-form-item> -->
-    <!-- <el-form-item label="行内新增按钮">
+        <!-- <el-form-item label="行内新增按钮">
       <el-switch v-model="data.options.addRowBtn"></el-switch>
     </el-form-item> -->
-    <!-- <el-form-item label="按钮宽度">
+        <!-- <el-form-item label="按钮宽度">
       <el-input-number
         v-model="data.placeholder"
         placeholder="请输入操作按钮宽度"
       ></el-input-number>
     </el-form-item> -->
-    <!-- <el-form-item label="对齐方式">
+        <!-- <el-form-item label="对齐方式">
       <el-select
         v-model="data.options.align"
         placeholder="请选择操作按钮对齐方式"
@@ -60,43 +62,43 @@
       </el-select>
     </el-form-item> -->
 
-    <!-- <el-form-item label="显示保存按钮">
+        <!-- <el-form-item label="显示保存按钮">
       <el-switch v-model="data.options.addBtn"></el-switch>
     </el-form-item> -->
-    <!-- <el-form-item label="保存按钮">
+        <!-- <el-form-item label="保存按钮">
       <el-input
         v-model="data.options.saveBtnTitle"
         placeholder="保存按钮标题"
       ></el-input>
     </el-form-item> -->
-    <!-- <el-form-item label="显示更新按钮">
+        <!-- <el-form-item label="显示更新按钮">
       <el-switch v-model="data.options.addBtn"></el-switch>
     </el-form-item> -->
-    <!-- <el-form-item label="更新按钮">
+        <!-- <el-form-item label="更新按钮">
       <el-input
         v-model="data.updateBtnTitle"
         placeholder="更新按钮标题"
       ></el-input>
     </el-form-item> -->
-    <!-- <el-form-item label="显示取消按钮">
+        <!-- <el-form-item label="显示取消按钮">
       <el-switch v-model="data.options.addBtn"></el-switch>
     </el-form-item> -->
-    <!-- <el-form-item label="取消按钮">
+        <!-- <el-form-item label="取消按钮">
       <el-input
         v-model="data.options.cancelBtnTitle"
         placeholder="取消按钮标题"
       ></el-input>
     </el-form-item> -->
 
-    <!-- <el-form-item label="显示导出按钮">
+        <!-- <el-form-item label="显示导出按钮">
       <el-switch v-model="data.options.addBtn"></el-switch>
     </el-form-item> -->
 
-    <el-form-item label="显示日期组件">
-      <el-switch v-model="data.options.dateBtn"></el-switch>
-    </el-form-item>
+        <el-form-item label="显示日期组件">
+          <el-switch v-model="data.options.dateBtn"></el-switch>
+        </el-form-item>
 
-    <!-- <el-form-item label="添加按钮">
+        <!-- <el-form-item label="添加按钮">
       <el-switch v-model="data.options.addBtn"></el-switch>
     </el-form-item>
     <el-form-item label="删除按钮">
@@ -111,12 +113,7 @@
     <el-form-item label="是否可见">
       <el-switch v-model="data.display"></el-switch>
     </el-form-item> -->
-    <el-row>表格字段控制</el-row>
-
-    <el-row>表头左侧自定义功能按钮</el-row>
-
-    <el-row>表头右侧自定义图标按钮</el-row>
-    <el-collapse v-model="activePanel" accordion>
+      </el-collapse-item>
       <el-collapse-item title="表格字段" name="1">
         <draggable
           class="syllable_ul"
@@ -145,7 +142,7 @@
                 <el-button
                   type="danger"
                   size="mini"
-                  @click="handleDelete(index)"
+                  @click="handleDeleteColumn(index)"
                   circle
                   icon="el-icon-minus"
                 ></el-button
@@ -156,13 +153,13 @@
         <el-row>
           <el-col :span="10" class="fieldSection"
             ><el-input
-              v-model="newItem.label"
+              v-model="newColumn.label"
               placeholder="请输入列名"
             ></el-input
           ></el-col>
           <el-col :span="10" class="fieldSection"
             ><el-input
-              v-model="newItem.prop"
+              v-model="newColumn.prop"
               placeholder="请输入字段名"
             ></el-input
           ></el-col>
@@ -170,7 +167,7 @@
             <el-button
               type="success"
               size="mini"
-              @click="handleAdd(newItem)"
+              @click="handleAddColumn(newColumn)"
               circle
               icon="el-icon-plus"
             ></el-button
@@ -184,6 +181,79 @@
         <el-form-item label="显示打印按钮">
           <el-switch v-model="data.options.printBtn"></el-switch>
         </el-form-item>
+        <el-row>自定义按钮</el-row>
+        <draggable
+          class="syllable_ul"
+          element="ul"
+          :list="curlLeftButtons"
+          :options="{ group: 'title', animation: 150 }"
+          :no-transition-on-drag="true"
+          @change="change"
+          @start="start"
+          @end="end"
+          :move="move"
+        >
+          <transition-group
+            type="transition"
+            :name="!drag ? 'syll_li' : null"
+            :css="true"
+          >
+            <li v-for="(item, index) in curlLeftButtons" :key="item.title">
+              <el-col :span="4" class="fieldSection">
+                <el-select v-model="data.options.menuType" disabled>
+                  <el-option :label="item.icon" value="item.icon">
+                    <i :class="item.icon"></i>
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="8" class="fieldSection"
+                ><el-input v-model="item.title" disabled></el-input
+              ></el-col>
+              <el-col :span="8" class="fieldSection"
+                ><el-input v-model="item.dialog" disabled></el-input
+              ></el-col>
+              <el-col :span="4" class="fieldSection">
+                <el-button
+                  type="danger"
+                  size="mini"
+                  @click="handleDeleteLeftButton(index)"
+                  circle
+                  icon="el-icon-minus"
+                ></el-button
+              ></el-col>
+            </li>
+          </transition-group>
+        </draggable>
+        <el-row>
+          <el-col :span="4" class="fieldSection">
+            <el-select v-model="newLeftButton.icon" placeholder="按钮图标">
+              <el-option label="el-icon-plus" value="el-icon-plus">
+                <i class="el-icon-plus"></i>
+              </el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="8" class="fieldSection"
+            ><el-input
+              v-model="newLeftButton.title"
+              placeholder="按钮标题"
+            ></el-input
+          ></el-col>
+          <el-col :span="8" class="fieldSection"
+            ><el-input
+              v-model="newLeftButton.dialog"
+              placeholder="关联表单"
+            ></el-input
+          ></el-col>
+          <el-col :span="4" class="fieldSection">
+            <el-button
+              type="success"
+              size="mini"
+              @click="handleAddLeftButton(newLeftButton)"
+              circle
+              icon="el-icon-plus"
+            ></el-button
+          ></el-col>
+        </el-row>
       </el-collapse-item>
       <el-collapse-item title="表头功能按钮(右侧)" name="3">
         <el-form-item label="显示列显隐按钮">
@@ -198,6 +268,79 @@
         <el-form-item label="显示过滤按钮">
           <el-switch v-model="data.options.filterBtn"></el-switch>
         </el-form-item>
+        <el-row>自定义按钮</el-row>
+        <draggable
+          class="syllable_ul"
+          element="ul"
+          :list="curlRightButtons"
+          :options="{ group: 'title', animation: 150 }"
+          :no-transition-on-drag="true"
+          @change="change"
+          @start="start"
+          @end="end"
+          :move="move"
+        >
+          <transition-group
+            type="transition"
+            :name="!drag ? 'syll_li' : null"
+            :css="true"
+          >
+            <li v-for="(item, index) in curlRightButtons" :key="item.title">
+              <el-col :span="4" class="fieldSection">
+                <el-select v-model="data.options.menuType" disabled>
+                  <el-option :label="item.icon" value="item.icon">
+                    <i :class="item.icon"></i>
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="8" class="fieldSection"
+                ><el-input v-model="item.title" disabled></el-input
+              ></el-col>
+              <el-col :span="8" class="fieldSection"
+                ><el-input v-model="item.dialog" disabled></el-input
+              ></el-col>
+              <el-col :span="4" class="fieldSection">
+                <el-button
+                  type="danger"
+                  size="mini"
+                  @click="handleDeleteRightButton(index)"
+                  circle
+                  icon="el-icon-minus"
+                ></el-button
+              ></el-col>
+            </li>
+          </transition-group>
+        </draggable>
+        <el-row>
+          <el-col :span="4" class="fieldSection">
+            <el-select v-model="newRightButton.icon" placeholder="按钮图标">
+              <el-option label="el-icon-plus" value="el-icon-plus">
+                <i class="el-icon-plus"></i>
+              </el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="8" class="fieldSection"
+            ><el-input
+              v-model="newRightButton.title"
+              placeholder="按钮标题"
+            ></el-input
+          ></el-col>
+          <el-col :span="8" class="fieldSection"
+            ><el-input
+              v-model="newRightButton.dialog"
+              placeholder="关联表单"
+            ></el-input
+          ></el-col>
+          <el-col :span="4" class="fieldSection">
+            <el-button
+              type="success"
+              size="mini"
+              @click="handleAddRightButton(newRightButton)"
+              circle
+              icon="el-icon-plus"
+            ></el-button
+          ></el-col>
+        </el-row>
       </el-collapse-item>
       <el-collapse-item title="数据行控制" name="4">
         <el-form-item label="行内菜单类型">
@@ -285,24 +428,52 @@ export default {
   name: "config-crud",
   props: ["data"],
   data: () => ({
-    newItem: {},
+    newColumn: {},
     activePanel: 1,
+    newLeftButton: {},
+    newRightButton: {},
   }),
   methods: {
-    handleAdd(newItem) {
+    handleAddColumn(newColumn) {
       if (
         this.column.some(
-          (item) => item.label == newItem.label || item.prop == newItem.prop
+          (item) => item.label == newColumn.label || item.prop == newColumn.prop
         )
       ) {
         alert("列名字段不能重复");
         return;
       }
-      this.column.push(lodash.clone(newItem));
-      this.newItem = {};
+      this.column.push(lodash.clone(newColumn));
+      this.newColumn = {};
     },
-    handleDelete(index) {
+    handleDeleteColumn(index) {
       this.column.splice(index, 1);
+    },
+    handleAddLeftButton(newLeftButton) {
+      if (
+        this.curlLeftButtons.some((item) => item.title == newLeftButton.title)
+      ) {
+        alert("按钮名称不能重复");
+        return;
+      }
+      this.curlLeftButtons.push(lodash.clone(newLeftButton));
+      this.newLeftButton = {};
+    },
+    handleDeleteLeftButton(index) {
+      this.curlLeftButtons.splice(index, 1);
+    },
+    handleAddRightButton(newRightButton) {
+      if (
+        this.curlRightButtons.some((item) => item.title == newRightButton.title)
+      ) {
+        alert("按钮名称不能重复");
+        return;
+      }
+      this.curlRightButtons.push(lodash.clone(newRightButton));
+      this.newRightButton = {};
+    },
+    handleDeleteRightButton(index) {
+      this.curlRightButtons.splice(index, 1);
     },
     //evt里面有两个值，一个evt.added 和evt.removed  可以分别知道移动元素的ID和删除元素的ID
     change(evt) {
@@ -330,6 +501,12 @@ export default {
   computed: {
     column() {
       return this.data.options.column;
+    },
+    curlLeftButtons() {
+      return this.data.options.leftButtons;
+    },
+    curlRightButtons() {
+      return this.data.options.rightButtons;
     },
   },
 };

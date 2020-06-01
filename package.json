@@ -12,8 +12,10 @@
   "dependencies": {
     "avue-plugin-map": "^0.0.7",
     "avue-plugin-ueditor": "^0.1.4",
+    "axios": "^0.19.2",
     "csvjson-json_beautifier": "^5.0.4",
     "v-jsoneditor": "^1.2.1",
+    "vue-router": "^3.3.2",
     "vuedraggable": "^2.23.0"
   },
   "devDependencies": {

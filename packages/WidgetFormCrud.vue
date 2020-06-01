@@ -8,18 +8,32 @@
       ></i
       >{{ column.label }}
     </h4>
-    <p>{{ column }}</p>
-    <p>{{ data }}</p>
+    <!-- <p>{{ column }}</p>
+    <p>{{ data }}</p> -->
     <!-- column.funcs.fetchData(page) -->
     <avue-crud
-      :data="column.funcs.fetchData(page)"
+      :data="list"
       :option="column.options"
       :page="page"
       v-model="crudObj"
-      :before-close="beforeOpen"
+      :before-open="beforeOpen"
+      :before-close="beforeClose"
+      @row-save="handleRowSave"
+      @row-del="handleRowDelete"
+      @row-update="handleRowUpdate"
     >
       <template slot="menuLeft">
-        <draggable
+        <template v-for="(leftButton, index) in column.options.leftButtons"
+          ><el-button
+            :key="index"
+            :icon="leftButton.icon"
+            type="primary"
+            @click="handleBtnClick(leftButton.dialog)"
+            >{{ leftButton.title }}</el-button
+          ></template
+        >
+
+        <!-- <draggable
           class="widget-form-crud__body"
           style="display:inline-flex;vertical-align:middle;min-width: 5em;
     line-height: 1;"
@@ -119,7 +133,7 @@
           type="primary"
         >
           <i class="iconfont icon-copy"></i>
-        </el-button>
+        </el-button> -->
       </template>
     </avue-crud>
   </div>
@@ -134,8 +148,18 @@ export default {
   // eslint-disable-next-line vue/no-unused-components
   components: { WidgetFormItem, WidgetFormTable },
   created() {
-    console.log("column", this.column);
+    console.dir("column");
+    console.dir(this.column);
+    this.loadData();
+    if (!this.isListenning) {
+      EventBus.$on("on-btn-click-confirm", this.addFromExternal);
+      this.isListenning = true;
+    }
   },
+  destroyed() {
+    EventBus.$off("on-btn-click-confirm");
+  },
+
   data() {
     return {
       selectWidget: this.select,
@@ -144,32 +168,24 @@ export default {
         pageSize: 20,
       },
       crudObj: {},
-      crudData: [
-        {
-          name: "张三",
-          sex: "男",
-          date: "1994-02-23 00:00:00",
-        },
-        {
-          name: "李四",
-          sex: "女",
-          date: "1994-02-23 00:00:00",
-        },
-        {
-          name: "王五",
-          sex: "女",
-          date: "1994-02-23 00:00:00",
-        },
-        {
-          name: "赵六",
-          sex: "男",
-          date: "1994-02-23 00:00:00",
-        },
-      ],
+      list: [],
       crudOption: {},
+      isListenning: false,
     };
   },
   methods: {
+    async loadData() {
+      this.list = await this.fetchData(this.page);
+      console.log("list", this.list);
+    },
+    beforeOpen(done, type) {
+      console.log("beforeOpen", done, type);
+      done();
+    },
+    beforeClose(done, type) {
+      console.log("beforeClose", done, type);
+      done();
+    },
     handleSelectWidget(index) {
       this.selectWidget = this.data.column[index];
     },
@@ -245,6 +261,37 @@ export default {
       console.log("emit");
       EventBus.$emit("on-btn-click", evt);
     },
+    // 增加按钮
+    async handleRowSave(row, done, loading) {
+      await this.add(row);
+      done(); // 关闭表单
+      loading(); // 按钮停止加载
+      this.loadData();
+    },
+    // 修改按钮
+    async handleRowUpdate(row, index, done, loading) {
+      await this.update(row);
+      done(); // 关闭表单
+      loading(); // 按钮停止加载
+      this.loadData();
+    },
+    // 删除按钮
+    // eslint-disable-next-line no-unused-vars
+    handleRowDelete(row, index) {
+      this.$confirm("是否删除该条信息？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        this.delete(row);
+        this.loadData();
+      });
+    },
+    async addFromExternal(formData) {
+      console.log("formData", formData);
+      await this.add(formData);
+      this.loadData();
+    },
   },
   watch: {
     select(val) {
@@ -255,6 +302,20 @@ export default {
         this.$emit("update:select", val);
       },
       deep: true,
+    },
+  },
+  computed: {
+    fetchData() {
+      return this.column.funcs.fetchData ?? (() => []);
+    },
+    add() {
+      return this.column.funcs.add ?? (() => []);
+    },
+    update() {
+      return this.column.funcs.update ?? (() => []);
+    },
+    delete() {
+      return this.column.funcs.delete ?? (() => []);
     },
   },
 };

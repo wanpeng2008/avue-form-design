@@ -1,0 +1,27 @@
+[{
+    "data": {
+        "column": [{
+            "type": "input",
+            "label": "单行文本",
+            "span": 24,
+            "display": true,
+            "size": "small",
+            "prop": "1591031338991_23548"
+        }],
+        "labelPosition": "left",
+        "labelSuffix": "：",
+        "labelWidth": 120,
+        "gutter": 0,
+        "menuBtn": true,
+        "submitBtn": true,
+        "submitSize": "medium",
+        "submitText": "提交",
+        "emptyBtn": true,
+        "emptySize": "medium",
+        "emptyText": "清空",
+        "menuPosition": "center"
+    },
+    "id": 1,
+    "name": "",
+    "title": "测试1"
+}]

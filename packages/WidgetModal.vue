@@ -8,18 +8,18 @@
       ></i
       >{{ column.label }}
     </h4>
-    <!-- <p>{{ data }}</p>
-    <p>{{ column }}</p> -->
+    <!-- <p>{{ data }}</p>-->
+    <!-- <p>{{ column }}</p> -->
 
     <draggable
       class="widget-form-group__body"
-      :list="column.children.column"
+      :list="formFieldList"
       :group="{ name: 'form' }"
       ghost-class="ghost"
       :animation="200"
       @add="handleWidgetGroupAdd($event, column)"
     >
-      <template v-for="(item, groupIndex) in column.children.column">
+      <template v-for="(item, groupIndex) in formFieldList">
         <div
           class="widget-form-table"
           v-if="item.type == 'dynamic'"
@@ -127,7 +127,16 @@
       width="600px"
     >
       <slot>
-        <avue-form :option="column.children"></avue-form>
+        <avue-form ref="form" v-model="form" :option="column.children">
+          <template slot="menuForm">
+            <el-button icon="el-icon-close" @click="handleReset"
+              >关 闭</el-button
+            >
+            <el-button type="primary" icon="el-icon-check" @click="handleSubmit"
+              >提 交</el-button
+            >
+          </template>
+        </avue-form>
       </slot>
     </el-dialog>
   </div>
@@ -144,6 +153,7 @@ export default {
   components: { WidgetFormItem, WidgetFormTable },
   data() {
     return {
+      form: {},
       selectWidget: this.select,
       isListenning: false,
       dialogVisible: false,
@@ -151,7 +161,7 @@ export default {
   },
   created() {
     if (!this.isListenning) {
-      EventBus.$on("on-btn-click", this.onBtnClick);
+      EventBus.$on("on-btn-click", this.invoked);
       this.isListenning = true;
     }
   },
@@ -159,12 +169,41 @@ export default {
     EventBus.$off("on-btn-click");
   },
   methods: {
-    onBtnClick(event) {
+    invoked(event) {
       console.log("on-btn-click", event);
 
       console.log("data", this.data);
       console.log("column", this.column);
       this.dialogVisible = true;
+    },
+    handleSubmit() {
+      this.$refs.form.validate((vaild) => {
+        if (vaild) {
+          let mappedForm = Object.entries(this.form)
+            .map((entry) => {
+              let [assignedProp, value] = entry;
+              let formFieldName = this.getFormFieldName(assignedProp);
+              return { [formFieldName]: value };
+            })
+            .reduce((pre, cur) => ({
+              ...pre,
+              ...cur,
+            }));
+          EventBus.$emit("on-btn-click-confirm", mappedForm);
+          this.dialogVisible = false;
+          this.$refs.form.resetForm();
+        }
+      });
+    },
+    getFormFieldName(assignedProp) {
+      let matchedItem = this.fieldMappings.find(
+        (fieldMapping) => fieldMapping.assignedProp == assignedProp
+      );
+      return matchedItem ? matchedItem.formFieldName : assignedProp;
+    },
+    handleReset() {
+      this.$refs.form.resetForm();
+      this.dialogVisible = false;
     },
     handleSelectWidget(index) {
       this.selectWidget = this.data.column[index];
@@ -200,42 +239,50 @@ export default {
     handleWidgetTableClone(column, item) {
       const data = this.deepClone(item);
       data.prop = Date.now() + "_" + Math.ceil(Math.random() * 99999);
-      this.$set(column.children.column, column.children.column.length, {
+      this.$set(this.formFieldList, this.formFieldList.length, {
         ...data,
       });
       this.$nextTick(() => {
-        this.selectWidget =
-          column.children.column[column.children.column.length - 1];
+        this.selectWidget = this.formFieldList[this.formFieldList.length - 1];
       });
     },
     handleWidgetTableDelete(column, index) {
-      if (column.children.column.length - 1 == index) {
+      if (this.formFieldList.length - 1 == index) {
         if (index == 0) this.selectWidget = column;
-        else this.selectWidget = column.children.column[index - 1];
-      } else this.selectWidget = column.children.column[index + 1];
+        else this.selectWidget = this.formFieldList[index - 1];
+      } else this.selectWidget = this.formFieldList[index + 1];
       this.$nextTick(() => {
-        column.children.column.splice(index, 1);
+        this.formFieldList.splice(index, 1);
       });
     },
+    // eslint-disable-next-line no-unused-vars
     handleWidgetGroupAdd(evt, column) {
       let newIndex = evt.newIndex;
       const item = evt.item;
 
-      if (newIndex == 1 && newIndex > column.children.column.length - 1)
+      if (newIndex == 1 && newIndex > this.formFieldList.length - 1)
         newIndex = 0;
       if (["分组"].includes(item.textContent)) {
-        column.children.column.splice(newIndex, 1);
+        this.formFieldList.splice(newIndex, 1);
         return;
       }
 
-      const data = this.deepClone(column.children.column[newIndex]);
+      const data = this.deepClone(this.formFieldList[newIndex]);
       if (!data.prop)
         data.prop = Date.now() + "_" + Math.ceil(Math.random() * 99999);
       delete data.icon;
       if (data.type == "dynamic") data.span = 24;
       else data.span = 12;
-      this.$set(column.children.column, newIndex, { ...data });
-      this.selectWidget = column.children.column[newIndex];
+      this.$set(this.formFieldList, newIndex, { ...data });
+      this.selectWidget = this.formFieldList[newIndex];
+    },
+  },
+  computed: {
+    formFieldList() {
+      return this.column.children.column;
+    },
+    fieldMappings() {
+      return this.column.options.fieldMappings;
     },
   },
   watch: {

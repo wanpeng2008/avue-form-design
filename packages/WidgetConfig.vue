@@ -1,5 +1,6 @@
 <template>
   <div class="widget-config">
+    <!-- {{ data }} -->
     <el-form
       label-suffix="："
       v-if="this.data && Object.keys(this.data).length > 0"
